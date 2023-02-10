@@ -1,5 +1,6 @@
 const express = require('express');
 const fs = require('fs/promises');
+const { readingTalkers } = require('./utils/readingTalkers')
 
 const app = express();
 app.use(express.json());
@@ -16,8 +17,9 @@ app.listen(PORT, () => {
   console.log('Onlinee');
 });
 
+
+
 app.get('/talker', async (_req, res) => {
-  const data = await fs.readFile('src/talker.json', 'utf-8');
-  const talkers = JSON.parse(data);
+  const talkers = await readingTalkers();
   res.status(200).json(talkers);
 });
