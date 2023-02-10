@@ -20,9 +20,7 @@ app.listen(PORT, () => {
 app.get('/talker', async (_req, res) => {
   const data = await fs.readFile('src/talker.json', 'utf-8');
   const talkers = JSON.parse(data);
-  const emptyArray = [];
-
-  if(talkers !== emptyArray) res.status(200).json(talkers) 
+  res.status(200).json(talkers)
 });
 
 
