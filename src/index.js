@@ -1,5 +1,6 @@
 const express = require('express');
 // const fs = require('fs/promises');
+const crypto = require('crypto')
 const { readingTalkers } = require('./utils/readingTalkers');
 
 const app = express();
@@ -28,4 +29,11 @@ app.get('/talker/:id', async (req, res) => {
   const data = talkers.find((e) => e.id === Number(id));
   if (!data) res.status(404).send({ message: 'Pessoa palestrante não encontrada' });
   res.status(200).json(data);
+});
+
+app.post('/login', async(req, res) => {
+  const { email, password } = req.body;
+  const talkers = await readingTalkers();
+  const token = crypto.randomBytes(8).toString('hex');
+  res.status(200).send({"token": token })
 });
