@@ -2,6 +2,8 @@ const express = require('express');
 // const fs = require('fs/promises');
 const crypto = require('crypto');
 const { readingTalkers } = require('./utils/readingTalkers');
+const { validateloginEmailPost } = require('./utils/validateLoginEmailPost');
+const { validateLoginPasswordPost } = require('./utils/validateLoginPasswordPost'); 
 
 const app = express();
 app.use(express.json());
@@ -31,9 +33,7 @@ app.get('/talker/:id', async (req, res) => {
   res.status(200).json(data);
 });
 
-app.post('/login', async (_req, res) => {
-  // const { email, password } = req.body;
-  // const talkers = await readingTalkers();
+app.post('/login', validateloginEmailPost, validateLoginPasswordPost, async (_req, res) => {
   const token = crypto.randomBytes(8).toString('hex');
   res.status(200).send({ token });
 });
