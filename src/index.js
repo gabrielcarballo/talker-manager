@@ -1,12 +1,14 @@
 const express = require('express');
-// const fs = require('fs/promises');
+const fs = require('fs/promises');
 const crypto = require('crypto');
 const { readingTalkers } = require('./utils/readingTalkers');
 const { validateloginEmailPost } = require('./utils/validateLoginEmailPost');
 const { validateLoginPasswordPost } = require('./utils/validateLoginPasswordPost'); 
+const { stringify } = require('querystring');
 
 const app = express();
 app.use(express.json());
+
 
 const HTTP_OK_STATUS = 200;
 const PORT = '3000';
@@ -17,11 +19,12 @@ app.get('/', (_request, response) => {
 });
 
 app.listen(PORT, () => {
-  console.log('Onlinee');
+  console.log('Online');
 });
 
 app.get('/talker', async (_req, res) => {
   const talkers = await readingTalkers();
+  console.log(talkers.token)
   res.status(200).json(talkers);
 });
 
@@ -35,5 +38,15 @@ app.get('/talker/:id', async (req, res) => {
 
 app.post('/login', validateloginEmailPost, validateLoginPasswordPost, async (_req, res) => {
   const token = crypto.randomBytes(8).toString('hex');
+  const talkers = await readingTalkers();
+  talkers.unshift({token});
+  fs.writeFile('src/talker.json', JSON.stringify(talkers))
   res.status(200).send({ token });
+});
+
+app.delete('/talker/:id', (req, res) => {
+  const { id } = req.params;
+  
+  req.send(req.header('token'))
+
 });
