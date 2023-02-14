@@ -83,8 +83,22 @@ isValidTalkWatchedAtObject,
       ...dataToChange,
     };
     await fs.writeFile('src/talker.json', JSON.stringify(talkers));
-    res.status(200).json(talkers[data]);
+    res.status(204).json(talkers[data]);
   } catch (error) {
     res.status(500).send({ message: error });
   }
  });
+
+app.delete('/talker/:id',
+isTokenValid,
+async (req, res) => {
+  try {
+    const { id } = req.params;
+    const talkers = await readingTalkers();
+    const data = talkers.filter((e) => e.id !== Number(id));
+    await fs.writeFile('src/talker.json', JSON.stringify(data));
+    res.status(204).end();
+  } catch (error) {
+    res.status(500).send({ message: error });
+  }
+});
