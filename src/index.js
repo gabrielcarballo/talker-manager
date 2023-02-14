@@ -5,6 +5,9 @@ const { readingTalkers } = require('./utils/readingTalkers');
 const { validateLoginPasswordPost, validateloginEmailPost } = require('./utils/validateLoginPost'); 
 const {
 isTokenValid,
+isNameValid,
+isValidAge,
+isValidTalk,
 } = require('./utils/validateTalkerPost');
 
 
@@ -42,17 +45,9 @@ app.post('/login', validateloginEmailPost, validateLoginPasswordPost, async (_re
   res.status(200).send({ token });
 });
 
-app.post('/talker', isTokenValid, async(req, res) => {
-  const talkers = await readingTalkers();
+app.post('/talker', isTokenValid, isNameValid, isValidAge, isValidTalk, async(req, res) => {
+  const talkers = req.body;
   res.send(talkers)
 
 });
 
-app.get('/test', async(req, res) => {
-const authdata = await readingTalkers();
-  try {
-    res.send(authdata[0]);
-  } catch (error) {
-    throw new Error(error);
-  }
-});
