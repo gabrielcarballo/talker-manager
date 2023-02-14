@@ -1,8 +1,11 @@
 const express = require('express');
 const fs = require('fs/promises');
 const crypto = require('crypto');
-const { readingTalkers } = require('./utils/readingTalkers');
-const { validateLoginPasswordPost, validateloginEmailPost } = require('./utils/validateLoginPost'); 
+const { readingTalkers } = require('./validations/readingTalkers');
+const { 
+validateLoginPasswordPost,
+validateloginEmailPost, 
+} = require('./validations/validateLoginPost'); 
 const {
 isTokenValid,
 isNameValid,
@@ -10,8 +13,8 @@ isValidAge,
 isValidTalk,
 isValidTalkRateObject,
 isValidTalkWatchedAtObject,
-} = require('./utils/validateTalkerPost');
-const { writingTalkers } = require('./utils/writingTalkers');
+} = require('./validations/validateTalkerPost');
+const { writingTalkers } = require('./validations/writingTalkers');
 
 const app = express();
 app.use(express.json());
@@ -28,9 +31,21 @@ app.listen(PORT, () => {
   console.log('Online');
 });
 
+app.get('/talker/search',
+isTokenValid,
+ async (req, res) => {
+  const { q } = req.query;
+  const talkers = await readingTalkers();
+  const data = talkers.filter((e) => e.name.includes(q));
+  if (!q || q === '') {
+    res.status(200).json(talkers);
+  } else {
+    res.status(200).json(data);
+  }
+});
+
 app.get('/talker', async (_req, res) => {
   const talkers = await readingTalkers();
-  console.log(talkers.token);
   res.status(200).json(talkers);
 });
 
