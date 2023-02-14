@@ -83,7 +83,7 @@ isValidTalkWatchedAtObject,
       ...dataToChange,
     };
     await fs.writeFile('src/talker.json', JSON.stringify(talkers));
-    res.status(204).json(talkers[data]);
+    res.status(200).json(talkers[data]);
   } catch (error) {
     res.status(500).send({ message: error });
   }
