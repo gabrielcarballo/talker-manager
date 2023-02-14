@@ -9,7 +9,7 @@ isNameValid,
 isValidAge,
 isValidTalk,
 } = require('./utils/validateTalkerPost');
-
+const {writingTalkers} = require('./utils/writingTalkers')
 
 const app = express();
 app.use(express.json());
@@ -47,7 +47,13 @@ app.post('/login', validateloginEmailPost, validateLoginPasswordPost, async (_re
 
 app.post('/talker', isTokenValid, isNameValid, isValidAge, isValidTalk, async(req, res) => {
   const talkers = req.body;
-  res.send(talkers)
+  const allTalkers = await readingTalkers();
+  const finalData = {
+    "id": allTalkers.length + 1,
+    ...talkers
+  }
+  await writingTalkers(finalData)
+  return res.status(201).json(finalData)
 
 });
 
