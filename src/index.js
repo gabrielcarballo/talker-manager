@@ -1,5 +1,5 @@
 const express = require('express');
-const fs = require('fs/promises');
+/* const fs = require('fs/promises'); */
 const crypto = require('crypto');
 const { readingTalkers } = require('./utils/readingTalkers');
 const { validateLoginPasswordPost, validateloginEmailPost } = require('./utils/validateLoginPost'); 
@@ -8,8 +8,10 @@ isTokenValid,
 isNameValid,
 isValidAge,
 isValidTalk,
+isValidTalkRateObject,
+isValidTalkWatchedAtObject,
 } = require('./utils/validateTalkerPost');
-const {writingTalkers} = require('./utils/writingTalkers')
+const { writingTalkers } = require('./utils/writingTalkers');
 
 const app = express();
 app.use(express.json());
@@ -45,15 +47,20 @@ app.post('/login', validateloginEmailPost, validateLoginPasswordPost, async (_re
   res.status(200).send({ token });
 });
 
-app.post('/talker', isTokenValid, isNameValid, isValidAge, isValidTalk, async(req, res) => {
+app.post('/talker', 
+isTokenValid,
+isNameValid,
+isValidAge,
+isValidTalk,
+isValidTalkRateObject,
+isValidTalkWatchedAtObject,
+ async (req, res) => {
   const talkers = req.body;
   const allTalkers = await readingTalkers();
   const finalData = {
-    "id": allTalkers.length + 1,
-    ...talkers
-  }
-  await writingTalkers(finalData)
-  return res.status(201).json(finalData)
-
+    id: allTalkers.length + 1,
+    ...talkers,
+  };
+  await writingTalkers(finalData);
+  return res.status(201).json(finalData);
 });
-
