@@ -1,5 +1,5 @@
 const express = require('express');
-/* const fs = require('fs/promises'); */
+const fs = require('fs/promises');
 const crypto = require('crypto');
 const { readingTalkers } = require('./utils/readingTalkers');
 const { validateLoginPasswordPost, validateloginEmailPost } = require('./utils/validateLoginPost'); 
@@ -64,3 +64,27 @@ isValidTalkWatchedAtObject,
   await writingTalkers(finalData);
   return res.status(201).json(finalData);
 });
+
+app.put('/talker/:id', 
+isTokenValid,
+isNameValid,
+isValidAge,
+isValidTalk,
+isValidTalkRateObject,
+isValidTalkWatchedAtObject,
+ async (req, res) => {
+  try {
+    const { id } = req.params;
+    const dataToChange = req.body;
+    const talkers = await readingTalkers();
+    const data = talkers.findIndex((e) => e.id === Number(id));
+    talkers[data] = {
+      id: Number(id),
+      ...dataToChange,
+    };
+    await fs.writeFile('src/talker.json', JSON.stringify(talkers));
+    res.status(200).json(talkers[data]);
+  } catch (error) {
+    res.status(500).send({ message: error });
+  }
+ });
