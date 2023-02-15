@@ -1,5 +1,5 @@
 const fs = require('fs/promises');
-const { readingTalkers } = require('./readingTalkers');
+const { readingTalkers } = require('../utils/readingTalkers');
 
 const editingTalkers = async (info) => {
   try {

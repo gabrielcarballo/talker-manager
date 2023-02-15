@@ -1,8 +1,8 @@
 const express = require('express');
+const crypto = require('crypto');
 const { validateloginEmailPost,
   validateLoginPasswordPost,
-} = require('../validations')
-const crypto = require('crypto');
+} = require('../validations');
 
 const loginRoute = express.Router();
 
