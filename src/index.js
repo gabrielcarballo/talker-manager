@@ -1,20 +1,17 @@
 const express = require('express');
 const fs = require('fs/promises');
-const crypto = require('crypto');
-const { readingTalkers } = require('./validations/readingTalkers');
-const { 
-validateLoginPasswordPost,
-validateloginEmailPost, 
-} = require('./validations/validateLoginPost'); 
+const loginRoute = require('./routes/login.route');
+const { readingTalkers, writingTalkers } = require('./utils');
 const {
-isTokenValid,
 isNameValid,
+isTokenValid,
 isValidAge,
 isValidTalk,
 isValidTalkRateObject,
 isValidTalkWatchedAtObject,
-} = require('./validations/validateTalkerPost');
-const { writingTalkers } = require('./validations/writingTalkers');
+validateLoginPasswordPost,
+validateloginEmailPost,
+} = require('./validations');
 
 const app = express();
 app.use(express.json());
@@ -57,10 +54,7 @@ app.get('/talker/:id', async (req, res) => {
   res.status(200).json(data);
 });
 
-app.post('/login', validateloginEmailPost, validateLoginPasswordPost, async (_req, res) => {
-  const token = crypto.randomBytes(8).toString('hex');
-  res.status(200).send({ token });
-});
+app.use('/login', loginRoute);
 
 app.post('/talker', 
 isTokenValid,
