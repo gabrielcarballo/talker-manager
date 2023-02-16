@@ -3,7 +3,7 @@ const { readingTalkers } = require('../utils');
 
 const route = express.Router();
 
-const talkerIDGET = route.get('/:id', async (req, res) => {
+const talkerIDGET = route.get('/talker/:id', async (req, res) => {
   const { id } = req.params;
   const talkers = await readingTalkers();
   const data = talkers.find((e) => e.id === Number(id));

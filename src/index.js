@@ -24,15 +24,17 @@ app.get('/', (_request, response) => {
 app.listen(PORT, () => {
   console.log('Online');
 });
+
+//switch case aqui ficaria mais organizado ou seria ruim para manutenção ?
 app.use('/talker/search', isTokenValid, talkerSearchGET);
 
-app.use('/:id', talkerIDGET);
-
+app.use('/', talkerIDGET);
+//rota :id não entende id como parâmetro e recebe /qqcoisa/:id
 app.use('/talker', talkerGET);
 
 app.use('/talker', talkerPOST);
 
-app.use('/talker/:id', talkerIdPUT);
+app.use('/talker/:id', talkerIdPUT); //contraste
 
 app.use('/talker/:id', talkerIdDELETE);
 
