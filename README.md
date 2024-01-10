@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-This project involves creating a speaker registration system where users can perform CRUD operations (Create, Read, Update, and Delete) on speaker profiles. Additionally, the project includes endpoints to read and write data to a file using the fs module in Node.js. The project also includes a login endpoint that authenticates users and generates a token for further requests.
+This project involves creating a backend only speaker registration system where users can perform CRUD operations (Create, Read, Update, and Delete) on speaker profiles. Additionally, the project includes endpoints to read and write data to a file using the fs module in Node.js. The project also includes a login endpoint that authenticates users and generates a token for further requests.
 
 ## Development
 
@@ -273,6 +273,55 @@ Search for speakers by name.
 []
 ```
 </details>
+
+## Installation and Setup Instructions
+
+1. Clone this repository. You will need `node` and `npm` installed globally on your machine.
+    ```
+    git clone https://github.com/gabrielcarballo/talker-manager.git
+    ```
+
+2. Installation:
+    ```
+    cd talker-manager
+    npm install
+    ```
+
+3. To Start Server:
+    ```
+    npm start
+    ```
+
+## Usage Instructions
+
+Since this project is a backend application, you interact with it using API calls. You can use tools like [Postman](https://www.postman.com/) or [curl](https://curl.se/) to make these requests.
+
+Here are some examples:
+
+1. To retrieve all registered speakers:
+    ```
+    GET /talker
+    ```
+
+2. To retrieve a specific speaker by ID:
+    ```
+    GET /talker/:id
+    ```
+
+3. To authenticate and generate a token for further requests:
+    ```
+    POST /login
+    ```
+
+    Body:
+    ```json
+    {
+      "email": "email@email.com",
+      "password": "123456"
+    }
+    ```
+
+Remember to replace `:id` with the actual ID of the speaker you want to retrieve, and to replace the email and password in the `POST /login` request with your actual email and password.
 
 ## Feedback
 
