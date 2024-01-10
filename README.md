@@ -1,4 +1,4 @@
-# Project README - Talker Registration
+# Project README - Talker Registration Manager
 
 ## Project Overview
 
