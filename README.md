@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-This project involves creating a speaker registration system where users can perform CRUD operations (Create, Read, Update, and Delete) on speaker profiles. Additionally, the project includes endpoints to read and write data to a file using the fs module in Node.js.
+This project involves creating a speaker registration system where users can perform CRUD operations (Create, Read, Update, and Delete) on speaker profiles. Additionally, the project includes endpoints to read and write data to a file using the fs module in Node.js. The project also includes a login endpoint that authenticates users and generates a token for further requests.
 
 ## Development
 
@@ -273,10 +273,6 @@ Search for speakers by name.
 []
 ```
 </details>
-
-## Code Annotations
-
-Each endpoint's functionality is detailed in its corresponding section in the README.
 
 ## Feedback
 
